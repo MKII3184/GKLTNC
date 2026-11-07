@@ -49,7 +49,7 @@
       "priority": 6,
       "layer": "verification",
       "description": "Kiểm thử tự động end-to-end các ca nghiệp vụ, kiểm tra tính bền vững dữ liệu trên MySQL, xác nhận 0 Warning 0 Error",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\""
     }
   ]

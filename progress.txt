@@ -6,3 +6,4 @@
 - [COMPLETED] TASK-003: Xác nhận Data Annotations, 1-nhiều navigation properties, Migration Code-First áp dụng hoàn tất trên MySQL. Build & DB check passed.
 - [COMPLETED] TASK-004: Xác nhận phân chia 3 tầng: GUI không DbContext/SaveChanges, DAL không WinForms, BUS đảm bảo toàn bộ nghiệp vụ & xử lý ngoại lệ. Build passed.
 - [COMPLETED] TASK-005: Hoàn thiện hành vi Form: Enter=Thêm, Esc=Thoát, Tab order, chọn ComboBox theo khóa ngoại MaPB, hộp thoại đóng Form không bị lặp 2 lần. Build passed.
+- [COMPLETED] TASK-006: Kiểm thử tự động 8 verification gates thành công 100%, kiểm tra kết nối MySQL, hoàn tất Ralph Loop. Build succeeded: 0 Warning, 0 Error.
