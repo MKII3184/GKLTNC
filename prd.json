@@ -17,7 +17,7 @@
       "priority": 2,
       "layer": "gui-naming",
       "description": "Cập nhật tiêu đề Form đúng mẫu 'Quản lý nhân viên – 24110903 – Nguyễn Hoàng Minh', chuẩn hóa tên các controls (txtMaNV, cboPhongban, dgvNhanVien,...)",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\""
     },
     {

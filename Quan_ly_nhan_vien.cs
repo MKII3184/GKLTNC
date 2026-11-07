@@ -11,6 +11,27 @@ namespace GKLTNC
         private readonly PhongBanBUS _phongBanBUS = new PhongBanBUS();
         private readonly NhanVienBUS _nhanVienBUS = new NhanVienBUS();
 
+        // Cờ kiểm soát tránh hiển thị lặp hai lần hộp thoại đóng form
+        private bool _isClosingConfirmed = false;
+
+        #region Thuộc tính tương thích ngược (Compatibility Aliases)
+        public TextBox textBox1 => txtMaNV;
+        public TextBox textBox2 => txtHoTen;
+        public TextBox textBox3 => txtDiaChi;
+        public TextBox textBox4 => txtLuong;
+        public ComboBox comboBox1 => cboPhongban;
+        public RadioButton radioButton1 => rdbNam;
+        public RadioButton radioButton2 => rdbNu;
+        public DateTimePicker dateTimePicker2 => dtpNgaySinh;
+        public Button button1 => btnMoi;
+        public Button button2 => btnThem;
+        public Button button3 => btnSua;
+        public Button button4 => btnXoa;
+        public Button button5 => btnTimKiem;
+        public Button button6 => btnThoat;
+        public DataGridView dataGridView1 => dgvNhanVien;
+        #endregion
+
         public Quan_Ly_Nhan_Vien()
         {
             InitializeComponent();
@@ -20,12 +41,12 @@ namespace GKLTNC
         #region Khởi tạo Biểu tượng (Icons) cho Buttons
         private void InitializeButtonIcons()
         {
-            button1.Image = CreateIcon("refresh"); // Làm mới
-            button2.Image = CreateIcon("add");     // Thêm
-            button3.Image = CreateIcon("edit");    // Sửa
-            button4.Image = CreateIcon("delete");  // Xóa
-            button5.Image = CreateIcon("search");  // Tìm kiếm
-            button6.Image = CreateIcon("exit");    // Thoát
+            btnMoi.Image = CreateIcon("refresh");     // Làm mới
+            btnThem.Image = CreateIcon("add");         // Thêm
+            btnSua.Image = CreateIcon("edit");        // Sửa
+            btnXoa.Image = CreateIcon("delete");      // Xóa
+            btnTimKiem.Image = CreateIcon("search");  // Tìm kiếm
+            btnThoat.Image = CreateIcon("exit");      // Thoát
         }
 
         private Image CreateIcon(string type)
@@ -125,25 +146,25 @@ namespace GKLTNC
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi kết nối cơ sở dữ liệu: {ex.Message}\n\nVui lòng kiểm tra dịch vụ MySQL đang chạy và thông tin cấu hình trong appsettings.json.",
+                MessageBox.Show($"Lỗi kết nối cơ sở dữ liệu: {ex.Message}\n\nVui lòng kiểm tra dịch vụ MySQL đang chạy và chuỗi kết nối trong App.config.",
                                 "Lỗi khởi động", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Nạp danh sách Phòng ban vào ComboBox qua tầng BUS
+        /// Nạp danh sách Phòng ban vào cboPhongban qua tầng BUS
         /// </summary>
         private void LoadPhongBanComboBox()
         {
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add(new PhongBanItem("", "- Chọn phòng ban -"));
+            cboPhongban.Items.Clear();
+            cboPhongban.Items.Add(new PhongBanItem("", "- Chọn phòng ban -"));
 
             try
             {
                 var dsPhongBan = _phongBanBUS.GetAllPhongBan();
                 foreach (var pb in dsPhongBan)
                 {
-                    comboBox1.Items.Add(new PhongBanItem(pb.MaPB, pb.TenPB));
+                    cboPhongban.Items.Add(new PhongBanItem(pb.MaPB, pb.TenPB));
                 }
             }
             catch (Exception ex)
@@ -151,22 +172,22 @@ namespace GKLTNC
                 MessageBox.Show($"Không thể tải danh sách phòng ban: {ex.Message}", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            comboBox1.SelectedIndex = 0;
+            cboPhongban.SelectedIndex = 0;
         }
 
         /// <summary>
-        /// Nạp danh sách Nhân viên lên DataGridView qua tầng BUS
+        /// Nạp danh sách Nhân viên lên dgvNhanVien qua tầng BUS
         /// </summary>
         private void LoadNhanVienGridView(List<NhanVien>? danhSach = null)
         {
-            dataGridView1.Rows.Clear();
+            dgvNhanVien.Rows.Clear();
 
             try
             {
                 var list = danhSach ?? _nhanVienBUS.GetAllNhanVien();
                 foreach (var nv in list)
                 {
-                    int rowIndex = dataGridView1.Rows.Add(
+                    int rowIndex = dgvNhanVien.Rows.Add(
                         nv.MaNV,
                         nv.HoTen,
                         nv.GioiTinh ? "Nam" : "Nữ",
@@ -176,8 +197,8 @@ namespace GKLTNC
                         nv.PhongBan?.TenPB ?? nv.MaPB
                     );
 
-                    // Lưu thực thể NhanVien vào Tag của dòng để dễ dàng truy xuất
-                    dataGridView1.Rows[rowIndex].Tag = nv;
+                    // Lưu thực thể NhanVien vào Tag của dòng
+                    dgvNhanVien.Rows[rowIndex].Tag = nv;
                 }
             }
             catch (Exception ex)
@@ -187,74 +208,74 @@ namespace GKLTNC
         }
 
         /// <summary>
-        /// Làm sạch dữ liệu, bỏ chọn dòng, bật nút Thêm, tắt Sửa/Xóa, đưa con trỏ về Mã NV
+        /// Làm sạch dữ liệu, bỏ chọn dòng, đưa con trỏ về txtMaNV; bật Thêm, tắt Sửa/Xóa; cbo ở trạng thái chưa chọn
         /// </summary>
         private void ResetForm()
         {
             // 1. Làm sạch các ô nhập
-            if (comboBox1.Items.Count > 0)
-                comboBox1.SelectedIndex = 0; // Trở về "- Chọn phòng ban -"
+            if (cboPhongban.Items.Count > 0)
+                cboPhongban.SelectedIndex = 0; // Trở về "- Chọn phòng ban -"
 
-            textBox1.Clear();
-            textBox2.Clear();
-            radioButton1.Checked = true;
-            radioButton2.Checked = false;
-            dateTimePicker2.Value = DateTime.Now;
-            textBox3.Clear();
-            textBox4.Text = "0";
+            txtMaNV.Clear();
+            txtHoTen.Clear();
+            rdbNam.Checked = true;
+            rdbNu.Checked = false;
+            dtpNgaySinh.Value = DateTime.Now;
+            txtDiaChi.Clear();
+            txtLuong.Text = "0";
 
-            // 2. Bỏ chọn dòng hiện tại trên DataGridView
-            dataGridView1.ClearSelection();
-            dataGridView1.CurrentCell = null;
+            // 2. Bỏ chọn dòng hiện tại trên dgvNhanVien
+            dgvNhanVien.ClearSelection();
+            dgvNhanVien.CurrentCell = null;
 
             // 3. Trạng thái nút bấm
-            button2.Enabled = true;  // Bật nút Thêm
-            button3.Enabled = false; // Tắt nút Sửa
-            button4.Enabled = false; // Tắt nút Xóa
+            btnThem.Enabled = true;  // Bật nút Thêm
+            btnSua.Enabled = false;  // Tắt nút Sửa
+            btnXoa.Enabled = false;  // Tắt nút Xóa
 
-            // 4. Cho phép nhập Mã NV và đưa con trỏ về ô Mã NV
-            textBox1.ReadOnly = false;
-            textBox1.BackColor = Color.White;
-            textBox1.Focus();
+            // 4. Cho phép nhập Mã NV và đưa con trỏ về ô txtMaNV
+            txtMaNV.ReadOnly = false;
+            txtMaNV.BackColor = Color.White;
+            txtMaNV.Focus();
         }
         #endregion
 
-        #region Chọn dòng DataGridView
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        #region Chọn dòng DataGridView & Khóa ngoại ComboBox
+        private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= dataGridView1.Rows.Count)
+            if (e.RowIndex < 0 || e.RowIndex >= dgvNhanVien.Rows.Count)
                 return;
 
-            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+            DataGridViewRow row = dgvNhanVien.Rows[e.RowIndex];
             if (row.IsNewRow) return;
 
             // 1. Nạp dữ liệu từ dòng được chọn lên các ô nhập
-            textBox1.Text = row.Cells["manv"].Value?.ToString() ?? "";
-            textBox2.Text = row.Cells["hovaten"].Value?.ToString() ?? "";
+            txtMaNV.Text = row.Cells["manv"].Value?.ToString() ?? "";
+            txtHoTen.Text = row.Cells["hovaten"].Value?.ToString() ?? "";
 
             string gt = row.Cells["gioitinh"].Value?.ToString() ?? "";
             if (gt.Equals("Nữ", StringComparison.OrdinalIgnoreCase))
             {
-                radioButton2.Checked = true;
+                rdbNu.Checked = true;
             }
             else
             {
-                radioButton1.Checked = true;
+                rdbNam.Checked = true;
             }
 
             if (DateTime.TryParseExact(row.Cells["ngaysin"].Value?.ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ns))
             {
-                dateTimePicker2.Value = ns;
+                dtpNgaySinh.Value = ns;
             }
             else if (DateTime.TryParse(row.Cells["ngaysin"].Value?.ToString(), out DateTime nsFallback))
             {
-                dateTimePicker2.Value = nsFallback;
+                dtpNgaySinh.Value = nsFallback;
             }
 
-            textBox3.Text = row.Cells["diachi"].Value?.ToString() ?? "";
-            textBox4.Text = row.Cells["Luong"].Value?.ToString()?.Replace(",", "").Replace(".", "").Trim() ?? "0";
+            txtDiaChi.Text = row.Cells["diachi"].Value?.ToString() ?? "";
+            txtLuong.Text = row.Cells["Luong"].Value?.ToString()?.Replace(",", "").Replace(".", "").Trim() ?? "0";
 
-            // Chọn phòng ban tương ứng
+            // Chọn cboPhongban theo khóa ngoại MaPB
             if (row.Tag is NhanVien nvEntity && !string.IsNullOrEmpty(nvEntity.MaPB))
             {
                 SelectPhongBanByMa(nvEntity.MaPB);
@@ -266,22 +287,22 @@ namespace GKLTNC
             }
 
             // 2. Tắt nút Thêm, Bật nút Sửa và Xóa
-            button2.Enabled = false;
-            button3.Enabled = true;
-            button4.Enabled = true;
+            btnThem.Enabled = false;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
 
-            // 3. Không cho sửa Mã nhân viên
-            textBox1.ReadOnly = true;
-            textBox1.BackColor = Color.FromArgb(241, 245, 249);
+            // 3. Không cho sửa Mã nhân viên (giữ nguyên khóa chính)
+            txtMaNV.ReadOnly = true;
+            txtMaNV.BackColor = Color.FromArgb(241, 245, 249);
         }
 
         private void SelectPhongBanByMa(string maPb)
         {
-            for (int i = 0; i < comboBox1.Items.Count; i++)
+            for (int i = 0; i < cboPhongban.Items.Count; i++)
             {
-                if (comboBox1.Items[i] is PhongBanItem item && item.MaPB == maPb)
+                if (cboPhongban.Items[i] is PhongBanItem item && item.MaPB == maPb)
                 {
-                    comboBox1.SelectedIndex = i;
+                    cboPhongban.SelectedIndex = i;
                     return;
                 }
             }
@@ -289,11 +310,11 @@ namespace GKLTNC
 
         private void SelectPhongBanByTen(string tenPb)
         {
-            for (int i = 0; i < comboBox1.Items.Count; i++)
+            for (int i = 0; i < cboPhongban.Items.Count; i++)
             {
-                if (comboBox1.Items[i] is PhongBanItem item && item.TenPB.Equals(tenPb, StringComparison.OrdinalIgnoreCase))
+                if (cboPhongban.Items[i] is PhongBanItem item && item.TenPB.Equals(tenPb, StringComparison.OrdinalIgnoreCase))
                 {
-                    comboBox1.SelectedIndex = i;
+                    cboPhongban.SelectedIndex = i;
                     return;
                 }
             }
@@ -302,41 +323,41 @@ namespace GKLTNC
 
         #region Các Thao Tác Chức Năng (CRUD qua tầng BUS)
         // Nút Mới (Làm mới)
-        private void button1_Click(object sender, EventArgs e)
+        private void btnMoi_Click(object sender, EventArgs e)
         {
             LoadNhanVienGridView();
             ResetForm();
         }
 
         // Nút Thêm (Enter)
-        private void button2_Click(object sender, EventArgs e)
+        private void btnThem_Click(object sender, EventArgs e)
         {
             try
             {
                 // Kiểm tra sơ bộ giao diện trước khi gửi xuống BUS
-                if (comboBox1.SelectedItem is not PhongBanItem selectedPb || string.IsNullOrEmpty(selectedPb.MaPB))
+                if (cboPhongban.SelectedItem is not PhongBanItem selectedPb || string.IsNullOrEmpty(selectedPb.MaPB))
                 {
                     MessageBox.Show("Vui lòng chọn phòng ban hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    comboBox1.Focus();
+                    cboPhongban.Focus();
                     return;
                 }
 
-                string rawSalary = textBox4.Text.Replace(",", "").Replace(".", "").Trim();
+                string rawSalary = txtLuong.Text.Replace(",", "").Replace(".", "").Trim();
                 if (!decimal.TryParse(rawSalary, out decimal luong) || luong < 0)
                 {
-                    MessageBox.Show("Lương phải là một số dương hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBox4.Focus();
+                    MessageBox.Show("Lương phải là một số không âm hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtLuong.Focus();
                     return;
                 }
 
                 // Tạo Entity NhanVien
                 NhanVien nv = new NhanVien
                 {
-                    MaNV = textBox1.Text.Trim(),
-                    HoTen = textBox2.Text.Trim(),
-                    GioiTinh = radioButton1.Checked,
-                    NgaySinh = dateTimePicker2.Value,
-                    DiaChi = textBox3.Text.Trim(),
+                    MaNV = txtMaNV.Text.Trim(),
+                    HoTen = txtHoTen.Text.Trim(),
+                    GioiTinh = rdbNam.Checked,
+                    NgaySinh = dtpNgaySinh.Value,
+                    DiaChi = txtDiaChi.Text.Trim(),
                     Luong = luong,
                     MaPB = selectedPb.MaPB
                 };
@@ -355,9 +376,9 @@ namespace GKLTNC
         }
 
         // Nút Sửa
-        private void button3_Click(object sender, EventArgs e)
+        private void btnSua_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.IsNewRow)
+            if (dgvNhanVien.CurrentRow == null || dgvNhanVien.CurrentRow.IsNewRow)
             {
                 MessageBox.Show("Vui lòng chọn nhân viên cần sửa từ danh sách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -365,28 +386,28 @@ namespace GKLTNC
 
             try
             {
-                if (comboBox1.SelectedItem is not PhongBanItem selectedPb || string.IsNullOrEmpty(selectedPb.MaPB))
+                if (cboPhongban.SelectedItem is not PhongBanItem selectedPb || string.IsNullOrEmpty(selectedPb.MaPB))
                 {
                     MessageBox.Show("Vui lòng chọn phòng ban hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    comboBox1.Focus();
+                    cboPhongban.Focus();
                     return;
                 }
 
-                string rawSalary = textBox4.Text.Replace(",", "").Replace(".", "").Trim();
+                string rawSalary = txtLuong.Text.Replace(",", "").Replace(".", "").Trim();
                 if (!decimal.TryParse(rawSalary, out decimal luong) || luong < 0)
                 {
-                    MessageBox.Show("Lương phải là một số dương hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBox4.Focus();
+                    MessageBox.Show("Lương phải là một số không âm hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtLuong.Focus();
                     return;
                 }
 
                 NhanVien nv = new NhanVien
                 {
-                    MaNV = textBox1.Text.Trim(),
-                    HoTen = textBox2.Text.Trim(),
-                    GioiTinh = radioButton1.Checked,
-                    NgaySinh = dateTimePicker2.Value,
-                    DiaChi = textBox3.Text.Trim(),
+                    MaNV = txtMaNV.Text.Trim(),
+                    HoTen = txtHoTen.Text.Trim(),
+                    GioiTinh = rdbNam.Checked,
+                    NgaySinh = dtpNgaySinh.Value,
+                    DiaChi = txtDiaChi.Text.Trim(),
                     Luong = luong,
                     MaPB = selectedPb.MaPB
                 };
@@ -405,17 +426,18 @@ namespace GKLTNC
         }
 
         // Nút Xóa
-        private void button4_Click(object sender, EventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.IsNewRow)
+            if (dgvNhanVien.CurrentRow == null || dgvNhanVien.CurrentRow.IsNewRow)
             {
                 MessageBox.Show("Vui lòng chọn nhân viên cần xóa từ danh sách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string ma = dataGridView1.CurrentRow.Cells["manv"].Value?.ToString() ?? "";
-            string ten = dataGridView1.CurrentRow.Cells["hovaten"].Value?.ToString() ?? "";
+            string ma = dgvNhanVien.CurrentRow.Cells["manv"].Value?.ToString() ?? "";
+            string ten = dgvNhanVien.CurrentRow.Cells["hovaten"].Value?.ToString() ?? "";
 
+            // Xác nhận trước khi xóa (Câu 4d)
             DialogResult dr = MessageBox.Show(
                 $"Bạn có chắc chắn muốn xóa nhân viên '{ten}' (Mã: {ma}) không?",
                 "Xác nhận xóa",
@@ -442,13 +464,13 @@ namespace GKLTNC
         }
 
         // Nút Tìm kiếm
-        private void button5_Click(object sender, EventArgs e)
+        private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            string keyword = textBox1.Text.Trim();
-            if (string.IsNullOrEmpty(keyword)) keyword = textBox2.Text.Trim();
+            string keyword = txtMaNV.Text.Trim();
+            if (string.IsNullOrEmpty(keyword)) keyword = txtHoTen.Text.Trim();
 
             string? maPb = null;
-            if (comboBox1.SelectedItem is PhongBanItem selectedPb && !string.IsNullOrEmpty(selectedPb.MaPB))
+            if (cboPhongban.SelectedItem is PhongBanItem selectedPb && !string.IsNullOrEmpty(selectedPb.MaPB))
             {
                 maPb = selectedPb.MaPB;
             }
@@ -473,15 +495,17 @@ namespace GKLTNC
             }
         }
 
-        // Nút Thoát (ESC)
-        private void button6_Click(object sender, EventArgs e)
+        // Nút Thoát (ESC hoặc bấm nút)
+        private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // Sự kiện Form Closing để xác nhận thoát an toàn
+        // Sự kiện Form Closing để xác nhận thoát an toàn - Tránh hiển thị hai lần (Câu 4d)
         private void Quan_Ly_Nhan_Vien_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (_isClosingConfirmed) return;
+
             DialogResult dr = MessageBox.Show(
                 "Bạn có chắc chắn muốn thoát khỏi chương trình?",
                 "Xác nhận thoát",
@@ -492,6 +516,10 @@ namespace GKLTNC
             if (dr != DialogResult.Yes)
             {
                 e.Cancel = true;
+            }
+            else
+            {
+                _isClosingConfirmed = true;
             }
         }
         #endregion
