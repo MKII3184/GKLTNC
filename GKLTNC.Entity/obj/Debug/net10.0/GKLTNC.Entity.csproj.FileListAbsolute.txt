@@ -9,3 +9,14 @@ C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\refint\GKLTNC.Entity.dll
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.pdb
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\ref\GKLTNC.Entity.dll
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\bin\Debug\net10.0\GKLTNC.Entity.deps.json
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\bin\Debug\net10.0\GKLTNC.Entity.dll
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\bin\Debug\net10.0\GKLTNC.Entity.pdb
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.AssemblyInfoInputs.cache
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.AssemblyInfo.cs
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.csproj.CoreCompileInputs.cache
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.dll
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\refint\GKLTNC.Entity.dll
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\GKLTNC.Entity.pdb
+C:\Users\24110\OneDrive\Desktop\GKLTNC\GKLTNC.Entity\obj\Debug\net10.0\ref\GKLTNC.Entity.dll

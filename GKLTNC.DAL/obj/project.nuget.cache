@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZOsxI+a766Y=",
+  "dgSpecHash": "215Xb1VNFXM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.DAL\\GKLTNC.DAL.csproj",
+  "projectFilePath": "C:\\Users\\24110\\OneDrive\\Desktop\\GKLTNC\\GKLTNC.DAL\\GKLTNC.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\24110\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\24110\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

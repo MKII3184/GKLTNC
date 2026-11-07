@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.Entity\\GKLTNC.Entity.csproj",
+      "projectUniqueName": "C:\\Users\\24110\\OneDrive\\Desktop\\GKLTNC\\GKLTNC.Entity\\GKLTNC.Entity.csproj",
       "projectName": "GKLTNC.Entity",
-      "projectPath": "C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.Entity\\GKLTNC.Entity.csproj",
+      "projectPath": "C:\\Users\\24110\\OneDrive\\Desktop\\GKLTNC\\GKLTNC.Entity\\GKLTNC.Entity.csproj",
       "packagesPath": "C:\\Users\\24110\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.Entity\\obj\\",
+      "outputPath": "C:\\Users\\24110\\OneDrive\\Desktop\\GKLTNC\\GKLTNC.Entity\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
