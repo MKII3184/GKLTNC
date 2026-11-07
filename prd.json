@@ -41,7 +41,7 @@
       "priority": 5,
       "layer": "gui-behavior",
       "description": "Hoàn thiện hành vi Form: Tab, Enter=Thêm, Esc=Thoát, Form Load/Mới, chọn ComboBox theo khóa ngoại, xác nhận xóa, xử lý hộp thoại đóng form không bị lặp 2 lần",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\""
     },
     {
