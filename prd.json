@@ -33,7 +33,7 @@
       "priority": 4,
       "layer": "architecture-3tier",
       "description": "Đảm bảo phân chia đúng 3 tầng: GUI không đụng DbContext/DbSet/SaveChanges; DAL không dùng WinForms; BUS chịu trách nhiệm toàn bộ nghiệp vụ và kiểm tra dữ liệu",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\""
     },
     {
