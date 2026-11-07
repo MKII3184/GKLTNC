@@ -3,3 +3,4 @@
 - Initial state prepared. Ready to execute Ralph Loop.
 - [COMPLETED] TASK-001: Cấu hình App.config trong GUI & DAL, đọc chuỗi kết nối qua System.Configuration.ConfigurationManager, không hardcode. Build passed.
 - [COMPLETED] TASK-002: Đổi tiêu đề Form 'Quản lý nhân viên – 24110903 – Nguyễn Hoàng Minh', chuẩn hóa tên controls (txtMaNV, cboPhongban, dgvNhanVien, btnThem,...). Build passed.
+- [COMPLETED] TASK-003: Xác nhận Data Annotations, 1-nhiều navigation properties, Migration Code-First áp dụng hoàn tất trên MySQL. Build & DB check passed.

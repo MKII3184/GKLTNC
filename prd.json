@@ -25,7 +25,7 @@
       "priority": 3,
       "layer": "entity-migration",
       "description": "Kiểm tra Data Annotations của PhongBan và NhanVien, quan hệ 1-nhiều, Migration và Database Update",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.DAL\\GKLTNC.DAL.csproj\""
     },
     {
