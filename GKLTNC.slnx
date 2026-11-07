@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GKLTNC.BUS/GKLTNC.BUS.csproj" />
+  <Project Path="GKLTNC.csproj" />
+  <Project Path="GKLTNC.DAL/GKLTNC.DAL.csproj" />
+  <Project Path="GKLTNC.Entity/GKLTNC.Entity.csproj" />
+</Solution>
