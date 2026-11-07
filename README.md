@@ -9,40 +9,48 @@
 
 ---
 
-## 1. Cấu Trúc Kiến Trúc Dự Án (3 Tầng + 1 Entity)
+## 1. Cấu Trúc Kiến Trúc Dự Án (4 Thư Mục Dự Án Riêng Biệt)
 
-Solution được tổ chức phân tách độc lập thành 4 project nhằm đảm bảo đúng chuẩn Three-Layer và nguyên tắc trách nhiệm duy nhất:
+Solution được tổ chức thành **4 project nằm trong 4 thư mục riêng biệt** ngang hàng, không lồng vào nhau, đảm bảo tuyệt đối nguyên tắc Three-Layer Architecture:
 
 ```text
-C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\
+GKLTNC\
 ├── GKLTNC.slnx                      # File Solution quản lý 4 project
-├── App.config                       # Cấu hình kết nối MySQL cho tầng GUI
-├── appsettings.json                 # Cấu hình JSON bổ trợ
+├── README.md                        # Hướng dẫn chi tiết
+├── .gitignore                       # Bỏ qua các file nhị phân biên dịch
 │
-├── GKLTNC.Entity\                   # TẦNG THỰC THỂ (Domain Models)
-│   ├── PhongBan.cs                  # Entity Phòng ban (Data Annotations, quan hệ 1-nhiều)
-│   └── NhanVien.cs                  # Entity Nhân viên (Data Annotations, khóa ngoại MaPB)
+├── GKLTNC.GUI\                      # 1. TẦNG GIAO DIỆN (Windows Forms)
+│   ├── GKLTNC.GUI.csproj            # File project giao diện WinForms
+│   ├── Program.cs                   # Điểm khởi chạy ứng dụng
+│   ├── Quan_ly_nhan_vien.cs         # Mã xử lý sự kiện form (chỉ gọi BUS, KHÔNG đụng DbContext)
+│   ├── Quan_ly_nhan_vien.Designer.cs# Khởi tạo controls (txtMaNV, cboPhongban, dgvNhanVien,...)
+│   ├── Quan_ly_nhan_vien.resx       # Tài nguyên form
+│   ├── App.config                   # Cấu hình chuỗi kết nối MySQL
+│   └── appsettings.json             # Cấu hình JSON bổ trợ
 │
-├── GKLTNC.DAL\                      # TẦNG TRUY CẬP DỮ LIỆU (Data Access Layer - DAO)
+├── GKLTNC.BUS\                      # 2. TẦNG NGHIỆP VỤ (Business Logic Layer - BLL)
+│   ├── GKLTNC.BUS.csproj            # File project nghiệp vụ
+│   ├── PhongBanBUS.cs               # Nghiệp vụ xử lý danh mục phòng ban
+│   └── NhanVienBUS.cs               # Nghiệp vụ nhân viên: kiểm tra mã trùng, tuổi >= 18, lương >= 0,...
+│
+├── GKLTNC.DAL\                      # 3. TẦNG TRUY CẬP DỮ LIỆU (Data Access Layer - DAO)
+│   ├── GKLTNC.DAL.csproj            # File project truy cập dữ liệu
 │   ├── AppDbContext.cs              # DbContext & DesignTime Factory cho EF Core Migrations
 │   ├── DatabaseConfiguration.cs     # Đọc chuỗi kết nối từ App.config qua ConfigurationManager
 │   ├── PhongBanDAL.cs               # Truy vấn bảng PhongBan
 │   ├── NhanVienDAL.cs               # Thao tác CRUD bảng NhanVien qua EF Core
 │   ├── App.config                   # Cấu hình kết nối phục vụ Migration
+│   ├── appsettings.json             # Cấu hình JSON bổ trợ
 │   └── Migrations\                  # Các tệp Migration Code-First tự động sinh
 │
-├── GKLTNC.BUS\                      # TẦNG NGHIỆP VỤ (Business Logic Layer - BLL)
-│   ├── PhongBanBUS.cs               # Nghiệp vụ xử lý danh mục phòng ban
-│   └── NhanVienBUS.cs               # Nghiệp vụ nhân viên: kiểm tra trùng mã, tuổi >= 18, lương >= 0,...
-│
-└── GKLTNC\ (GUI)                    # TẦNG GIAO DIỆN (Windows Forms)
-    ├── Quan_ly_nhan_vien.cs         # Xử lý giao diện (chỉ gọi BUS, KHÔNG đụng DbContext)
-    ├── Quan_ly_nhan_vien.Designer.cs# Giao diện controls (txtMaNV, cboPhongban, dgvNhanVien,...)
-    └── Program.cs                   # Điểm khởi chạy ứng dụng
+└── GKLTNC.Entity\                   # 4. TẦNG THỰC THỂ (Domain Models)
+    ├── GKLTNC.Entity.csproj         # File project thực thể
+    ├── PhongBan.cs                  # Entity Phòng ban (Data Annotations, quan hệ 1-nhiều)
+    └── NhanVien.cs                  # Entity Nhân viên (Data Annotations, khóa ngoại MaPB)
 ```
 
 **Luồng dữ liệu xử lý nghiêm ngặt:**
-$$\text{GUI (WinForms)} \longrightarrow \text{BUS / BLL} \longrightarrow \text{DAL / DAO} \longrightarrow \text{MySQL Database}$$
+$$\text{GKLTNC.GUI (WinForms)} \longrightarrow \text{GKLTNC.BUS} \longrightarrow \text{GKLTNC.DAL} \longrightarrow \text{MySQL Database}$$
 - **GUI:** Tuyệt đối không khởi tạo `DbContext`, không gọi `DbSet` hay `SaveChanges`.
 - **DAL:** Không sử dụng bất kỳ điều khiển WinForms nào (`System.Windows.Forms`).
 - **BUS:** Chịu trách nhiệm toàn bộ logic nghiệp vụ, thẩm định dữ liệu trước khi chuyển xuống DAL.
@@ -51,7 +59,7 @@ $$\text{GUI (WinForms)} \longrightarrow \text{BUS / BLL} \longrightarrow \text{D
 
 ## 2. Cấu Hình Kết Nối MySQL (Không Hardcode)
 
-Chuỗi kết nối được lưu trữ tập trung trong tệp `App.config` ở thư mục gốc của project GUI (`GKLTNC`) và `GKLTNC.DAL`:
+Chuỗi kết nối được lưu trữ tập trung trong tệp `App.config` ở project GUI (`GKLTNC.GUI`) và `GKLTNC.DAL`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -70,7 +78,7 @@ Chuỗi kết nối được lưu trữ tập trung trong tệp `App.config` ở
 > - **Mật khẩu mặc định:** `dmcvmkii28`
 > - **Tên cơ sở dữ liệu:** `quanlynhanvien_db`
 >
-> Nếu máy của bạn sử dụng mật khẩu hoặc cổng MySQL khác, bạn chỉ cần thay đổi giá trị trong tệp `App.config` mà không cần chỉnh sửa bất kỳ dòng mã nguồn C# nào.
+> Nếu máy tính sử dụng mật khẩu hoặc cổng MySQL khác, bạn chỉ cần thay đổi trong tệp `App.config` mà không cần sửa bất kỳ dòng mã nguồn C# nào.
 
 ---
 
@@ -95,7 +103,7 @@ Mở PowerShell hoặc Command Prompt tại thư mục dự án và chạy lện
 
 ```powershell
 # Di chuyển vào thư mục DAL
-cd "C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL"
+cd "GKLTNC.DAL"
 
 # Áp dụng migration để tạo database và các bảng trên MySQL
 dotnet ef database update
@@ -114,15 +122,14 @@ Sau khi lệnh hoàn tất:
 
 ### Cách 1: Sử dụng Visual Studio (Khuyên dùng)
 1. Mở tệp Solution `GKLTNC.slnx` bằng Visual Studio 2022/2026.
-2. Kiểm tra cửa sổ **Solution Explorer**, chuột phải vào project `GKLTNC` $\rightarrow$ chọn **Set as Startup Project**.
+2. Kiểm tra cửa sổ **Solution Explorer**, chuột phải vào project `GKLTNC.GUI` $\rightarrow$ chọn **Set as Startup Project**.
 3. Nhấn phím **F5** (hoặc `Ctrl + F5`) để biên dịch và chạy ứng dụng.
 
 ### Cách 2: Sử dụng dòng lệnh .NET CLI
-Mở terminal và thực thi lệnh sau:
+Mở terminal tại thư mục gốc của solution và chạy:
 
 ```powershell
-cd "C:\Users\24110\OneDrive\Desktop\DA\GKLTNC"
-dotnet run --project GKLTNC.csproj
+dotnet run --project GKLTNC.GUI/GKLTNC.GUI.csproj
 ```
 
 ---
@@ -166,7 +173,6 @@ dotnet run --project GKLTNC.csproj
 ## 6. Lệnh Kiểm Tra Biên Dịch Nhanh
 
 ```powershell
-cd "C:\Users\24110\OneDrive\Desktop\DA\GKLTNC"
-dotnet build
+dotnet build GKLTNC.slnx
 # Kết quả: Build succeeded. 0 Warning(s), 0 Error(s)
 ```
