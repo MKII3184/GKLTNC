@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XaQ7C57v/S8=",
+  "dgSpecHash": "ZOsxI+a766Y=",
   "success": true,
   "projectFilePath": "C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\\GKLTNC.DAL\\GKLTNC.DAL.csproj",
   "expectedPackageFiles": [
@@ -44,7 +44,10 @@
     "C:\\Users\\24110\\.nuget\\packages\\system.composition.convention\\7.0.0\\system.composition.convention.7.0.0.nupkg.sha512",
     "C:\\Users\\24110\\.nuget\\packages\\system.composition.hosting\\7.0.0\\system.composition.hosting.7.0.0.nupkg.sha512",
     "C:\\Users\\24110\\.nuget\\packages\\system.composition.runtime\\7.0.0\\system.composition.runtime.7.0.0.nupkg.sha512",
-    "C:\\Users\\24110\\.nuget\\packages\\system.composition.typedparts\\7.0.0\\system.composition.typedparts.7.0.0.nupkg.sha512"
+    "C:\\Users\\24110\\.nuget\\packages\\system.composition.typedparts\\7.0.0\\system.composition.typedparts.7.0.0.nupkg.sha512",
+    "C:\\Users\\24110\\.nuget\\packages\\system.configuration.configurationmanager\\10.0.14\\system.configuration.configurationmanager.10.0.14.nupkg.sha512",
+    "C:\\Users\\24110\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.14\\system.diagnostics.eventlog.10.0.14.nupkg.sha512",
+    "C:\\Users\\24110\\.nuget\\packages\\system.security.cryptography.protecteddata\\10.0.14\\system.security.cryptography.protecteddata.10.0.14.nupkg.sha512"
   ],
   "logs": []
 }

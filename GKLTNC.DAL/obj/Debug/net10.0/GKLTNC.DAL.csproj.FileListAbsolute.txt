@@ -16,3 +16,4 @@ C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL\obj\Debug\net10.0\refint\GK
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL\obj\Debug\net10.0\GKLTNC.DAL.pdb
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL\obj\Debug\net10.0\GKLTNC.DAL.genruntimeconfig.cache
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL\obj\Debug\net10.0\ref\GKLTNC.DAL.dll
+C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\GKLTNC.DAL\bin\Debug\net10.0\GKLTNC.DAL.dll.config

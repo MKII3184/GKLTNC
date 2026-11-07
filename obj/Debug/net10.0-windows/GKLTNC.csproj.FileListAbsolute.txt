@@ -43,3 +43,5 @@ C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\bin\Debug\net10.0-windows\GKLTNC.Entit
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\bin\Debug\net10.0-windows\GKLTNC.BUS.pdb
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\bin\Debug\net10.0-windows\GKLTNC.DAL.pdb
 C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\obj\Debug\net10.0-windows\GKLTNC.csproj.Up2Date
+C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\bin\Debug\net10.0-windows\GKLTNC.dll.config
+C:\Users\24110\OneDrive\Desktop\DA\GKLTNC\bin\Debug\net10.0-windows\GKLTNC.DAL.dll.config

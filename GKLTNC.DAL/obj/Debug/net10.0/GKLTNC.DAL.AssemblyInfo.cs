@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GKLTNC.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+491dfab8d3de78b229ecef85280900298cc4031d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GKLTNC.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GKLTNC.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -9,7 +9,7 @@
       "priority": 1,
       "layer": "config",
       "description": "Cấu hình chuỗi kết nối MySQL trong App.config, đọc bằng ConfigurationManager, không hardcode trong mã nguồn",
-      "status": "PENDING",
+      "status": "COMPLETED",
       "verification": "dotnet build \"C:\\Users\\24110\\OneDrive\\Desktop\\DA\\GKLTNC\""
     },
     {

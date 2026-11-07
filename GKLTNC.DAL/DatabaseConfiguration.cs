@@ -1,22 +1,34 @@
+using System.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace GKLTNC.DAL
 {
     public static class DatabaseConfiguration
     {
-        private const string DefaultConnectionString = "Server=localhost;Port=3306;Database=quanlynhanvien_db;User ID=root;Password=dmcvmkii28;";
-
         public static string GetConnectionString()
         {
+            // 1. Đọc từ tệp App.config theo đúng chuẩn .NET và yêu cầu của đề thi
             try
             {
-                // Tìm kiếm appsettings.json ở thư mục chạy ứng dụng (AppDomain.CurrentDomain.BaseDirectory) hoặc thư mục hiện tại
+                var connSetting = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"];
+                if (connSetting != null && !string.IsNullOrWhiteSpace(connSetting.ConnectionString))
+                {
+                    return connSetting.ConnectionString;
+                }
+            }
+            catch
+            {
+                // Bỏ qua nếu môi trường chưa nạp App.config
+            }
+
+            // 2. Fallback đọc từ appsettings.json nếu có
+            try
+            {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 string configFile = Path.Combine(basePath, "appsettings.json");
 
                 if (!File.Exists(configFile))
                 {
-                    // Nếu đang chạy trong môi trường phát triển hoặc migration, tìm ở thư mục project
                     string projectDir = Directory.GetCurrentDirectory();
                     if (File.Exists(Path.Combine(projectDir, "appsettings.json")))
                     {
@@ -24,7 +36,6 @@ namespace GKLTNC.DAL
                     }
                     else
                     {
-                        // Kiểm tra trong thư mục GKLTNC.DAL
                         string dalDir = Path.Combine(projectDir, "GKLTNC.DAL");
                         if (File.Exists(Path.Combine(dalDir, "appsettings.json")))
                         {
@@ -46,10 +57,10 @@ namespace GKLTNC.DAL
             }
             catch
             {
-                // Fallback nếu có lỗi đọc cấu hình
+                // Bỏ qua lỗi fallback
             }
 
-            return DefaultConnectionString;
+            throw new InvalidOperationException("Không tìm thấy chuỗi kết nối 'DefaultConnection' trong tệp cấu hình App.config!");
         }
     }
 }

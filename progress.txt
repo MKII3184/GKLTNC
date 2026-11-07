@@ -1,3 +1,4 @@
 # Progress Log - Ralph Loop Execution: GKLTNC WinForms 3-Tier MySQL
 
 - Initial state prepared. Ready to execute Ralph Loop.
+- [COMPLETED] TASK-001: Cấu hình App.config trong GUI & DAL, đọc chuỗi kết nối qua System.Configuration.ConfigurationManager, không hardcode. Build passed.
